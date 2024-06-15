@@ -1,0 +1,3 @@
+		if(!ctype_digit($req->id)) {
+			return response() -> json(['error' => 'Invalid id.'], 400);
+		}

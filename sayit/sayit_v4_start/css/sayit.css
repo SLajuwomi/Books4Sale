@@ -1,0 +1,104 @@
+html {
+	box-sizing:border-box;
+}
+
+*,*:before,*:after {
+	box-sizing:inherit;
+}
+
+body {
+	background:#fef6cc;
+	font:14pt Dosis,Helvetica,sans-serif;
+	max-width:960px;
+	min-width:400px;
+	margin:auto;
+}
+
+h1,h2,h3 {
+	font-family: Asul,sans-serif;
+	text-align:center;
+}
+
+p { margin-top:0 }
+p:first-letter { font: 14pt Asul,sans-serif;}
+
+
+#beensaid {
+	border:1px solid #ccc;
+	padding:5px;
+	box-shadow: 3px 3px 4px #555;
+	border-radius: 12px;
+}
+
+#beensaid h3 {
+	color:#665500;
+	text-align:center;
+}
+
+#beensaid form {
+	display:inline;
+}
+
+#beensaid button {
+	background:#665500;
+	text-align:center;
+	color:#fef6cc;
+	font-size:10pt;
+	border-radius:12px;
+	margin:5px auto;
+	cursor:pointer;
+}
+button {
+	background:#665500;
+	text-align:center;
+	color:#fef6cc;
+	font-size:14pt;
+	border-radius:12px;
+	margin:5px auto;
+	cursor:pointer;
+}
+
+textarea,input,select {
+	background:#fffcee;
+	font:14pt Dosis,Helvetica,sans-serif;
+	border-radius:6px;
+}
+
+textarea {
+	width:100%;
+	height:200px;
+}
+
+section {
+	margin-bottom:10px;
+	word-wrap:break-word;
+}
+select, input {
+	max-width:250px;
+	width:40%
+}
+
+span.topic { color:#ff5701; }
+span.ts { color:#998000; }
+span.who { font-weight:bold; color:#0E4692; }
+label { font-weight:bold; }
+
+button.big-button, #browse select  {
+	background:#665500;
+	text-align:center;
+	color:#fef6cc;
+	max-width:480px;
+	width:100%;
+	font-size:14pt;
+	border-radius:12px;
+	margin:5px auto;
+	display:block;
+	cursor:pointer;
+}
+
+button:hover { background:#433b11; }
+#browse select:hover { cursor:pointer; }
+#update { width:100%; }
+div.error {
+	color:red;
+}
