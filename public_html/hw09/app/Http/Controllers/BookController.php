@@ -72,11 +72,11 @@ class BookController extends Controller
             $sql = "SELECT * FROM books WHERE book_id = ?";
             $books = DB::select($sql, [$data['edit']]);
             if (count($books) > 0 && $books[0]->user_id == Auth::id()) {
-                $sql = 'UPDATE books SET title=?, condition=?, price=? WHERE book_id=?';
+                $sql = 'UPDATE books SET title=?, book_condition=?, price=? WHERE book_id=?';
                 DB::statement($sql, [ucwords($title), $condition, $cost, $data['edit']]);
             }
         } else {
-            $sql = 'INSERT INTO books (created_by, user_id, title, condition, price) VALUES (?, ?, ?, ?, ?)';
+            $sql = 'INSERT INTO books (created_by, user_id, title, book_condition, price) VALUES (?, ?, ?, ?, ?)';
             DB::statement($sql, [Auth::id(), Auth::id(), ucwords($title), ucwords($condition), $cost]);
         }
         return redirect('/');
