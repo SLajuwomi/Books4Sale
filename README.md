@@ -10,3 +10,10 @@ Currently only working on Google Chrome (not incognito)
 
 https://github.com/user-attachments/assets/9ee51089-fe75-4605-baf3-487228d52e0e
 
+### What I Learned
+ - How to set up a database
+ - How to host a web app on a server
+ - PhP Syntax
+ - Laravel
+ - Event Listeners in JS
+ - Authentication
