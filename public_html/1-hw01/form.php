@@ -24,6 +24,7 @@
         </main>
     </div>
     <div class="form">
+        <!-- Sends a post request to the scraper.php file -->
         <form method="post" action="scraper.php">
             <section role="ISBN">
                 <h2 class="book-form-heading">Book Form</h2>
