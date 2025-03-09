@@ -28,11 +28,15 @@
 
         if ($valid) {
             // Open the URL and read the HTML content
-            $handle = fopen("https://www.amazon.com/exec/obidos/ISBN=$isbnclean", 'r');
+            $handle = fopen("https://www.amazon.com/dp/$isbnclean", 'r');
             // Read each line from the opened URL until the end of the file
             while (($line = fgets($handle)) !== false) {
                 // Extract the title, author, and publisher from the HTML using regex
-                if (preg_match("/<span id=\"productTitle\" class=\"a-size-extra-large[^>]*>([^<]+)<\/span>/", $line, $result)) {
+                // if (preg_match("/<span id=\"productTitle\" class=\"a-size-extra-large[^>]*>([^<]+)<\/span>/", $line, $result)) {
+                //     echo "Title: $result[1]<br>\n";
+                // }
+    
+                if (preg_match("/<span id=\"productTitle\"[^>]*>([^<]+)<\/span>/", $line, $result)) {
                     echo "Title: $result[1]<br>\n";
                 }
 
