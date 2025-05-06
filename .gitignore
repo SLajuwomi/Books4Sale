@@ -51,6 +51,37 @@ phpunit.result.cache
 sayit/sql/
 sayit/sayit_v4_start/sql/
 
+# Project specific directories
 .cursorrules
 docs/
 memory-bank/
+
+# Ignore Laravel specific directories in all project directories
+*/bootstrap/cache/*.php
+*/storage/app/*
+*/storage/framework/*
+*/storage/logs/*
+!*/storage/app/public/
+!*/storage/app/.gitignore
+!*/storage/framework/.gitignore
+!*/storage/logs/.gitignore
+
+# Ignore environment files in all directories
+*/.env
+*/.env.backup
+*/.env.*.php
+*/.env.php
+
+# Cache files
+*.cache
+
+# Laravel specific files in subprojects
+*/public/storage
+*/public/hot
+*/Homestead.yaml
+*/Homestead.json
+*/.phpunit.result.cache
+
+# Debug logs in all directories
+*/npm-debug.log
+*/yarn-error.log
