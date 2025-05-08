@@ -85,3 +85,9 @@ memory-bank/
 # Debug logs in all directories
 */npm-debug.log
 */yarn-error.log
+sayit/repomix-output.xml
+sayit/sayit-output.xml
+sayit-api-backend/repomix-output-sayit-api-backend.xml
+sayit-api-backend/sayit-api-backend-output.xml
+sayit-laravel/repomix-output.xml
+sayit-laravel/sayit-laravel-output.xml

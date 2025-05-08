@@ -20,6 +20,7 @@ Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
 Route::post('/save_message', 'SayItController@save_message')->middleware('auth');
 Route::post('/delete_message', 'SayItController@delete_message')->middleware('auth');
 Route::post('/message_detail', 'SayItController@message_detail')->middleware('auth');
+Route::get('/phpinfo', function () { phpinfo(); });
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
