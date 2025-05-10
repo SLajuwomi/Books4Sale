@@ -17,19 +17,21 @@ class OwnerMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-	
-	if(!ctype_digit($request->id)) {
-		return response() -> json(['error' => 'Invalid id.'], 400);
-	}
-	$sql = 'SELECT user_id FROM sayit_messages WHERE message_id=?';
-        $result= DB::select($sql, [$request->id]);
-	if (count($result) <1) {
-		return response()->json(['error' => 'No matching id found.'], 403);
-}
-	if ($result[0]->user_id != $request->user()->user_id) {
-		return response()->json(['error' => 'Unauthorized action.'], 403);
-}
+        if(!ctype_digit($request->id)) {
+            return response()->json(['error' => 'Invalid id.'], 400);
+        }
+        
+        $sql = 'SELECT user_id FROM sayit_messages WHERE message_id=?';
+        $result = DB::select($sql, [$request->id]);
+        
+        if (count($result) < 1) {
+            return response()->json(['error' => 'No matching message found.'], 404);
+        }
+        
+        if ($result[0]->user_id != $request->user()->id) {
+            return response()->json(['error' => 'Unauthorized: You can only modify your own messages.'], 403);
+        }
 
-	return $next($request);
+        return $next($request);
     }
 }

@@ -29,7 +29,6 @@ class SayItController extends Controller
 
 		try {
 		$sql = 'INSERT INTO sayit_messages (user_id, topic, message) VALUES (?, ?, ?)';
-		//DB::statement($sql, [Auth::id(), ucwords($topic), $data['message']]);
 		DB::statement($sql, [Auth::id(), ucwords($data['topic']), $data['message']]);
 		return response()->json(null,201);
 		} 
@@ -41,39 +40,60 @@ class SayItController extends Controller
 	public function put_message(Request $req)
 	{
 		if(!ctype_digit($req->id)) {
-			return response() -> json(['error' => 'Invalid id.'], 400);
+			return response()->json(['error' => 'Invalid id.'], 400);
 		}
 		$data = $req->validate([
 			'message' => 'required|max:500',
 			'topic' => 'required|max:100',
 		]);
 
+		// Verify the current user owns this message
+		$sql = 'SELECT user_id FROM sayit_messages WHERE message_id=?';
+		$result = DB::select($sql, [$req->id]);
+		
+		if (count($result) < 1) {
+			return response()->json(['error' => 'Message not found.'], 404);
+		}
+		
+		if ($result[0]->user_id != Auth::id()) {
+			return response()->json(['error' => 'Unauthorized: You can only edit your own messages.'], 403);
+		}
+
 		try {
-		$sql = 'UPDATE sayit_messages SET topic=?, message=? WHERE message_id=?';
-		//DB::statement($sql, [Auth::id(), ucwords($topic), $data['message']]);
-		DB::statement($sql, [ucwords($data['topic']), $data['message'], $req->id]);
-		return response()->json(null,200);
+			$sql = 'UPDATE sayit_messages SET topic=?, message=? WHERE message_id=?';
+			DB::statement($sql, [ucwords($data['topic']), $data['message'], $req->id]);
+			return response()->json(null, 200);
 		} 
 		catch (Exception $e) {
-			return response()->json(['error' => 'Unexpected database failure'],  503);
+			return response()->json(['error' => 'Unexpected database failure'], 503);
 		}
 	}	
 
 	public function delete_message(Request $req)
 	{
 		if(!ctype_digit($req->id)) {
-			return response() -> json(['error' => 'Invalid id.'], 400);
+			return response()->json(['error' => 'Invalid id.'], 400);
 		}
 
+		// Verify the current user owns this message
+		$sql = 'SELECT user_id FROM sayit_messages WHERE message_id=?';
+		$result = DB::select($sql, [$req->id]);
+		
+		if (count($result) < 1) {
+			return response()->json(['error' => 'Message not found.'], 404);
+		}
+		
+		if ($result[0]->user_id != Auth::id()) {
+			return response()->json(['error' => 'Unauthorized: You can only delete your own messages.'], 403);
+		}
 
 		try {
-		$sql = 'DELETE FROM sayit_messages WHERE message_id=?';
-		//DB::statement($sql, [Auth::id(), ucwords($topic), $data['message']]);
-		DB::statement($sql, [$req->id]);
-		return response()->json(null,204);
+			$sql = 'DELETE FROM sayit_messages WHERE message_id=?';
+			DB::statement($sql, [$req->id]);
+			return response()->json(null, 204);
 		} 
 		catch (Exception $e) {
-			return response()->json(['error' => 'Unexpected database failure'],  503);
+			return response()->json(['error' => 'Unexpected database failure'], 503);
 		}
 	}	
     //

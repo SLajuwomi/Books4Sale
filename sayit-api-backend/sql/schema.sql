@@ -5,7 +5,7 @@ CREATE TABLE sayit_messages (
 	topic      VARCHAR(100) DEFAULT '',
 	message    VARCHAR(500) DEFAULT '',
 	PRIMARY KEY(message_id),
-	FOREIGN KEY (user_id) REFERENCES sayit_users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- INSERT INTO sayit_users VALUES (default, 'fred@fun.com', 'freddy');
@@ -24,12 +24,12 @@ CREATE TABLE sayit_messages (
 -- 	CURRENT_TIMESTAMP - interval '2 minutes', 'Fun Stuff', 'Watching a million-inch TV is funnest!');
 
 CREATE VIEW get_all_messages AS
-	SELECT message_id, user_id, email, screen_name, ts AT TIME ZONE 'America/Chicago' AS ts, topic, message
-		FROM sayit_messages INNER JOIN sayit_users USING(user_id) ORDER BY ts DESC;
+	SELECT message_id, user_id, email, name AS screen_name, ts AT TIME ZONE 'America/Chicago' AS ts, topic, message
+		FROM sayit_messages INNER JOIN users ON sayit_messages.user_id = users.id ORDER BY ts DESC;
 
 CREATE VIEW get_recent_messages AS
-	SELECT message_id, user_id, email, screen_name, ts AT TIME ZONE 'America/Chicago' AS ts, topic, message
-		FROM sayit_messages INNER JOIN sayit_users USING(user_id) ORDER BY ts DESC LIMIT 10;
+	SELECT message_id, user_id, email, name AS screen_name, ts AT TIME ZONE 'America/Chicago' AS ts, topic, message
+		FROM sayit_messages INNER JOIN users ON sayit_messages.user_id = users.id ORDER BY ts DESC LIMIT 10;
 
 CREATE VIEW get_topic_list AS
 	SELECT topic, COUNT(topic) FROM sayit_messages GROUP BY topic ORDER BY COUNT(topic) DESC, topic;
