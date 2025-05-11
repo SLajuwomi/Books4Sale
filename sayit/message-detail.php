@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$db = pg_connect("host=csci.hsutx.edu dbname=web2db user=web2 password=welovethisclass");
+$db = pg_connect("host=localhost dbname=web2db user=web2 password=welovethisclass");
 
 if (!$db) {
     echo "error";
@@ -51,7 +51,7 @@ if (!logged_in()) {
 }
 
 $msg_id = $_POST['msg_id'];
-$sql = "SELECT * FROM stephen.get_all_messages WHERE message_id=$1";
+$sql = "SELECT * FROM get_all_messages WHERE message_id=$1";
 $result = pg_query_params($db, $sql, array($msg_id));
 if (!$result) {
     echo "error";

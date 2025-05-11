@@ -1,7 +1,9 @@
 <?php
+	$email= '';
+	$error_msg= '';
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		session_start();
-		$db= pg_connect("host=csci.hsutx.edu dbname=web2db user=web2 password=welovethisclass");
+		$db= pg_connect("host=localhost dbname=web2db user=web2 password=welovethisclass");
 		
 		if (!$db) {
 			header("Location: error.php?error=db_connect");
@@ -13,7 +15,7 @@
 		$email= pg_escape_string($email);
 
 		$error_msg='Login failed.';
-		$sql= "SELECT * FROM stephen.sayit_users WHERE email='$email'";
+		$sql= "SELECT * FROM sayit_users WHERE email='$email'";
 		$result= pg_query($db, $sql);
 		if (pg_num_rows($result) == 1) {
 			$db_password= pg_fetch_result($result, 0, 3);

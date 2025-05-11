@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$db = pg_connect("host=csci.hsutx.edu dbname=web2db user=web2 password=welovethisclass");
+$db = pg_connect("host=localhost dbname=web2db user=web2 password=welovethisclass");
 
 if (!$db) {
 	header("Location: error.php?error=db_connect");
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// Pull messages from database
 		$msg_id = $_POST['msg-id'];
 		if (ctype_digit($msg_id)) {
-			$sql = "SELECT * FROM stephen.get_all_messages WHERE message_id=$msg_id";
+			$sql = "SELECT * FROM get_all_messages WHERE message_id=$msg_id";
 			$result = pg_query($db, $sql);
 			$topic = pg_fetch_result($result, 0, 5);
 			$message = pg_fetch_result($result, 0, 6);
@@ -65,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$msg_id = $_POST['msg-id'];
 
 		if (csrf_passes($_POST) && ctype_digit($msg_id)) {
-			$sql = "SELECT * FROM stephen.get_all_messages WHERE message_id=$msg_id";
+			$sql = "SELECT * FROM get_all_messages WHERE message_id=$msg_id";
 			$result = pg_query($db, $sql);
 			$user_id = pg_fetch_result($result, 0, 1);
 			if (!can_change($user_id)) {
 				header('Location: ./index.php');
 				return;
 			}
-			$sql = "DELETE FROM stephen.sayit_messages WHERE message_id=$msg_id";
+			$sql = "DELETE FROM sayit_messages WHERE message_id=$msg_id";
 			pg_query($db, $sql);
 		}
 		// header("Location: index.php");
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				//this is update
 				$msg_id = $_POST['update-msg-id'];
 				if (ctype_digit($msg_id)) {
-					$sql = "SELECT * FROM stephen.get_all_messages WHERE message_id=$msg_id";
+					$sql = "SELECT * FROM get_all_messages WHERE message_id=$msg_id";
 					$result = pg_query($db, $sql);
 					$user_id = pg_fetch_result($result, 0, 1);
 					if (!can_change($user_id)) {
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						return;
 					}
 					error_log("Update SQL:" . $message);
-					$sql = "UPDATE stephen.sayit_messages SET topic='$topic', message='$message' WHERE message_id=$msg_id";
+					$sql = "UPDATE sayit_messages SET topic='$topic', message='$message' WHERE message_id=$msg_id";
 					$result = pg_query($db, $sql);
 				}
 			} else {
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					header('Location: ./index.php');
 					return;
 				}
-				$sql = "INSERT INTO stephen.sayit_messages (message_id, user_id, ts, topic,
+				$sql = "INSERT INTO sayit_messages (message_id, user_id, ts, topic,
 				message) VALUES (default, $_SESSION[user_id], CURRENT_TIMESTAMP, '$topic', '$message')";
 				$result = pg_query($db, $sql);
 			}
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<?php
 			$csrf_token = base64_encode(md5(mt_rand()));
 			$_SESSION['csrf_token'] = $csrf_token;
-			$sql = "SELECT * FROM stephen.get_recent_messages";
+			$sql = "SELECT * FROM get_recent_messages";
 			$result = pg_query($db, $sql);
 			$n = pg_num_rows($result);
 			for ($i = 0; $i < $n; $i++) {
@@ -203,7 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					<select name="existing-topic">
 						<?php
 
-						$result = pg_query($db, "SELECT * FROM stephen.get_topic_list");
+						$sql = "SELECT * FROM get_topic_list";
+						$result = pg_query($db, $sql);
 						$n = pg_num_rows($result);
 						$topic_exists = FALSE;
 						for ($i = 0; $i < $n; $i++) {

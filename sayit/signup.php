@@ -1,9 +1,10 @@
 <?php
 	$email= '';
 	$screen_name= '';
+	$error_msg= '';
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		$db= pg_connect("host=csci.hsutx.edu dbname=web2db user=web2 password=welovethisclass");
+		$db= pg_connect("host=localhost dbname=web2db user=web2 password=welovethisclass");
 		if (!$db) {
 			header("Location: error.php?error=db_connect");
 			return;
@@ -12,7 +13,7 @@
 		function already_exists($db, $field, $value) {
 			if ($field != 'email' && $field != 'screen_name') return FALSE;
 			$value= pg_escape_string($value);
-			$sql= "SELECT user_id FROM stephen.sayit_users WHERE $field='$value'";
+			$sql= "SELECT user_id FROM sayit_users WHERE $field='$value'";
 			$result= pg_query($db, $sql);
 			return pg_num_rows($result) != 0;
 		}
@@ -45,7 +46,7 @@
 			// create a new account
 			$hashed_password= password_hash($password, PASSWORD_DEFAULT);
 			$screen_name= pg_escape_string($screen_name);
-			$sql= "INSERT INTO stephen.sayit_users (user_id, email, screen_name, password) VALUES (default, '$email', '$screen_name', '$hashed_password')";
+			$sql= "INSERT INTO sayit_users (user_id, email, screen_name, password) VALUES (default, '$email', '$screen_name', '$hashed_password')";
 			$result= pg_query($db, $sql);
 			header('Location: ./login.php');
 			return;
