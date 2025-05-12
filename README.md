@@ -11,5 +11,6 @@ https://github.com/user-attachments/assets/9ee51089-fe75-4605-baf3-487228d52e0e
  - Laravel
  - Event Listeners in JS
  - Authentication
-
-https://csci.hsutx.edu/~sol2307/
+ 
+ 
+https://books4sale.slajuwomi.dev/
