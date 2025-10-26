@@ -8,5 +8,4 @@ class Books extends Model
 {
     protected $table = 'books';
     protected $primaryKey = 'book_id';
-    protected $timeStamps = FALSE;
 }

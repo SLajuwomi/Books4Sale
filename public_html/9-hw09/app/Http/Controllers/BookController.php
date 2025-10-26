@@ -76,8 +76,8 @@ class BookController extends Controller
                 DB::statement($sql, [ucwords($title), $condition, $cost, $data['edit']]);
             }
         } else {
-            $sql = 'INSERT INTO books (created_by, user_id, title, book_condition, price) VALUES (?, ?, ?, ?, ?)';
-            DB::statement($sql, [Auth::id(), Auth::id(), ucwords($title), ucwords($condition), $cost]);
+            $sql = 'INSERT INTO books (user_id, title, book_condition, price) VALUES (?, ?, ?, ?)';
+            DB::statement($sql, [Auth::id(), ucwords($title), $condition, $cost]);
         }
         return redirect('/');
     }
