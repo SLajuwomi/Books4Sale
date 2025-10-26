@@ -1,0 +1,1 @@
+- display error if user is not logged in and tries to view book detail/access add book page
