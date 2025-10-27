@@ -14,7 +14,7 @@ cmds = [
 ]
 
 [start]
-cmd = "nginx -c /assets/nginx.template.conf & php-fpm -y /assets/php-fpm.conf -F"
+cmd = "/usr/bin/env -S node /assets/scripts/prestart.mjs /assets/nginx.template.conf /tmp/nginx.conf && nginx -c /tmp/nginx.conf & php-fpm -y /assets/php-fpm.conf -F"
 
 
 
