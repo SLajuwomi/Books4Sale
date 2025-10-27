@@ -2,8 +2,8 @@
 
 [phases.install]
 cmds = [
-    "mkdir -p /app/public_html/storage/framework/views /app/public_html/storage/framework/cache /app/public_html/storage/framework/sessions",
-    "chmod -R 775 /app/public_html/storage"
+    "mkdir -p /app/storage/framework/views /app/storage/framework/cache /app/p/storage/framework/sessions",
+    "chmod -R 775 /app/storage"
 ]
 
 [phases.build]
@@ -20,3 +20,6 @@ cmds = [
 
 [start]
 cmd = "php-fpm -y /assets/php-fpm.conf -F & nginx -c /assets/nginx.conf"
+
+
+
