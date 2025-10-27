@@ -12,6 +12,7 @@ cmds = [
     "npm install",
     "npm run prod",
     "php artisan config:clear",
+    "php artisan cache:clear",
     "mkdir -p /etc/supervisor/conf.d/ /var/log",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
@@ -24,7 +25,26 @@ cmd = '/assets/start.sh'
 [staticAssets]
 "start.sh" = '''
 #!/bin/bash
+
+# --- Start of Diagnostic Steps ---
+
+# 1. Transform the nginx configuration file
 node /assets/scripts/prestart.mjs /assets/nginx.template.conf /etc/nginx.conf
+
+# 2. Print the generated config file to the logs so we can see it
+echo "--- Generated /etc/nginx.conf ---"
+cat /etc/nginx.conf
+echo "---------------------------------"
+
+# 3. Test the Nginx configuration and print any errors
+echo "--- Testing Nginx configuration syntax ---"
+nginx -t -c /etc/nginx.conf
+echo "----------------------------------------"
+
+# --- End of Diagnostic Steps ---
+
+# 4. Start the supervisor to run all services
+echo "--- Starting Supervisor ---"
 supervisord -c /etc/supervisord.conf -n
 '''
 
