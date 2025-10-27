@@ -1,6 +1,6 @@
 # Books4Sale
 
-I developed a full stack web application called Books4Sale where users can log in, make book listings, and modify them. This was done during my junior year Web Technologies II class. I used Laravel, PHP, and a PostgreSQL database. The application is currently hosted on a VPS.
+I developed a full stack web application called Books4Sale where users can log in, make book listings, and modify them. This was done during my junior year Web Technologies II class. I used Laravel, PHP, and a PostgreSQL database. The application is currently hosted on a VPS at https://books4sale.slajuwomi.dev/
 
 ## Demo Video
 
