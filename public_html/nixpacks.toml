@@ -13,7 +13,8 @@ cmds = [
     "npm run prod",
     "php artisan config:clear",
     "php artisan cache:clear",
-    "mkdir -p /etc/supervisor/conf.d/ /var/log",
+    # Corrected the directory path here
+    "mkdir -p /etc/supervisor/conf.d/ /var/log/nginx",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
     "chmod +x /assets/start.sh"
@@ -23,28 +24,10 @@ cmds = [
 cmd = '/assets/start.sh'
 
 [staticAssets]
+# We can now remove the diagnostic commands for a cleaner log
 "start.sh" = '''
 #!/bin/bash
-
-# --- Start of Diagnostic Steps ---
-
-# 1. Transform the nginx configuration file
 node /assets/scripts/prestart.mjs /assets/nginx.template.conf /etc/nginx.conf
-
-# 2. Print the generated config file to the logs so we can see it
-echo "--- Generated /etc/nginx.conf ---"
-cat /etc/nginx.conf
-echo "---------------------------------"
-
-# 3. Test the Nginx configuration and print any errors
-echo "--- Testing Nginx configuration syntax ---"
-nginx -t -c /etc/nginx.conf
-echo "----------------------------------------"
-
-# --- End of Diagnostic Steps ---
-
-# 4. Start the supervisor to run all services
-echo "--- Starting Supervisor ---"
 supervisord -c /etc/supervisord.conf -n
 '''
 
@@ -75,8 +58,8 @@ process_name=%(program_name)s_%(process_num)02d
 command=nginx -c /etc/nginx.conf
 autostart=true
 autorestart=true
-stdout_logfile=/var/log/worker-nginx.log
-stderr_logfile=/var/log/worker-nginx.log
+stdout_logfile=/var/log/nginx/worker-nginx.log
+stderr_logfile=/var/log/nginx/worker-nginx.log
 '''
 
 "worker-phpfpm.conf" = '''
@@ -135,8 +118,8 @@ http {
     log_format   main '$remote_addr - $remote_user [$time_local]  $status '
         '"$request" $body_bytes_sent "$http_referer" '
         '"$http_user_agent" "$http_x_forwarded_for"';
-    access_log /var/log/nginx-access.log;
-    error_log /var/log/nginx-error.log;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
     sendfile     on;
     tcp_nopush   on;
     server_names_hash_bucket_size 128;
