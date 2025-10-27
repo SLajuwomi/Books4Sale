@@ -10,11 +10,6 @@ cmds = [
 cmds = [
     "composer install --no-dev --optimize-autoloader",
     "npm install",
-    "echo '--- DEBUG: Contents of package.json ---'",
-    "cat /app/package.json",
-    "echo '--- DEBUG: Contents of postcss.config.js ---'",
-    "cat /app/postcss.config.js",
-    "echo '--- END DEBUG ---'",
     "npm run prod"
 ]
 
