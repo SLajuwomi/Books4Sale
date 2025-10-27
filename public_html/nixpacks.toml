@@ -2,19 +2,16 @@
 IS_LARAVEL = ""
 
 [phases.setup]
-# Add nginx to the list of packages to install
 nixPkgs = ["nginx", "php81", "php81Packages.composer", "nodejs-18_x", "python311Packages.supervisor"]
 
-# This phase is for installing dependencies
 [phases.install]
 cmds = ["composer install --no-dev --optimize-autoloader"]
 
-# This phase is for building assets and setting up the server
 [phases.build]
 cmds = [
     "npm install",
     "npm run prod",
-    "php artisan config:clear", # Add this command to clear the config cache
+    "php artisan config:clear",
     "mkdir -p /etc/supervisor/conf.d/ /var/log",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
@@ -27,9 +24,7 @@ cmd = '/assets/start.sh'
 [staticAssets]
 "start.sh" = '''
 #!/bin/bash
-# Transform the nginx configuration
 node /assets/scripts/prestart.mjs /assets/nginx.template.conf /etc/nginx.conf
-# Start supervisor
 supervisord -c /etc/supervisord.conf -n
 '''
 
@@ -107,7 +102,6 @@ php_admin_value[upload_max_filesize] = 30M
 '''
 
 "nginx.template.conf" = '''
-user www-data www-data;
 worker_processes 5;
 daemon off;
 worker_rlimit_nofile 8192;
