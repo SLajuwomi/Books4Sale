@@ -1,0 +1,23 @@
+# nixpacks.toml
+
+[variables]
+NIXPACKS_PHP_FALLBACK_PATH = ""
+
+[phases.install]
+cmds = [
+    "mkdir -p /app/storage/framework/views /app/storage/framework/cache /app/p/storage/framework/sessions",
+    "chmod -R 775 /app/storage"
+]
+
+[phases.build]
+cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "npm install",
+    "npm run prod"
+]
+
+[start]
+cmd = "/usr/bin/env -S node /assets/scripts/prestart.mjs /assets/nginx.template.conf /tmp/nginx.conf && nginx -c /tmp/nginx.conf & php-fpm -y /assets/php-fpm.conf -F"
+
+
+

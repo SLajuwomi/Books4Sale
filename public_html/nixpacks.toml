@@ -1,8 +1,16 @@
 [phases.setup]
 nixPkgs = ["...", "python311Packages.supervisor"]
 
+[phases.install]
+cmds = [
+    "mkdir -p /app/storage/framework/views /app/storage/framework/cache /app/p/storage/framework/sessions",
+    "chmod -R 775 /app/storage"
+]
+
 [phases.build]
 cmds = [
+    "mkdir -p /app/storage/framework/views /app/storage/framework/cache /app/p/storage/framework/sessions",
+    "chmod -R 775 /app/storage",
     "mkdir -p /etc/supervisor/conf.d/",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
