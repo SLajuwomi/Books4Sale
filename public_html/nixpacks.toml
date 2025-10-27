@@ -15,6 +15,7 @@ cmds = [
     "php artisan cache:clear",
     "php artisan migrate --force",
     "mkdir -p /etc/supervisor/conf.d/ /var/log/nginx",
+    "chmod -R 775 storage bootstrap/cache",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
     "chmod +x /assets/start.sh"
