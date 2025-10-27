@@ -1,11 +1,9 @@
 [variables]
 IS_LARAVEL = ""
 
-# Explicitly define the providers and versions
-providers = ["php@8.1", "node@18"]
-
 [phases.setup]
-nixPkgs = ["python311Packages.supervisor"]
+# Explicitly install PHP, Composer, Node, and Supervisor
+nixPkgs = ["php81", "php81Packages.composer", "nodejs-18_x", "python311Packages.supervisor"]
 
 # This phase is for installing dependencies
 [phases.install]
@@ -152,7 +150,7 @@ http {
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
         $if(IS_LARAVEL) (
-            error_page 444 /index.php;
+            error_page 404 /index.php;
         ) else ()
         location ~ \.php$ {
             fastcgi_pass 127.0.0.1:9000;
