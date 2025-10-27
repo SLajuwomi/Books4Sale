@@ -1,5 +1,8 @@
 # nixpacks.toml
 
+[variables]
+NIXPACKS_PHP_FALLBACK_PATH = ""
+
 [phases.install]
 cmds = [
     "mkdir -p /app/storage/framework/views /app/storage/framework/cache /app/p/storage/framework/sessions",
