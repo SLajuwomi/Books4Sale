@@ -13,7 +13,7 @@ cmds = [
     "npm run prod",
     "php artisan config:clear",
     "php artisan cache:clear",
-    # Corrected the directory path here
+    "php artisan migrate --force",
     "mkdir -p /etc/supervisor/conf.d/ /var/log/nginx",
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
