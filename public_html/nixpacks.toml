@@ -1,0 +1,17 @@
+# nixpacks.toml
+
+[phases.install]
+cmds = [
+    "mkdir -p /app/public_html/storage/framework/views /app/public_html/storage/framework/cache /app/public_html/storage/framework/sessions",
+    "chmod -R 775 /app/public_html/storage"
+]
+
+[phases.build]
+cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "npm install",
+    "npm run prod"
+]
+
+[start]
+cmd = "php-fpm -y /assets/php-fpm.conf -F & nginx -c /assets/nginx.conf"
