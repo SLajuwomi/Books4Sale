@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'BookController@index');
 Route::get('/error', 'BookController@error');
-Route::get('/addbook', 'BookController@addbook');
+Route::get('/addbook', 'BookController@addbook')->middleware('auth');
 Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
 Route::post('/addbook', 'BookController@postaddbook')->middleware('auth');
 // Route::get('/bookdetail', 'BookController@bookdetail')->middleware('auth');

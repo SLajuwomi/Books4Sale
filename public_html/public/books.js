@@ -1,4 +1,3 @@
-// sayit.js
 $(document).ready(function () {
     $("#update").click(function () {
         location.reload(true);
@@ -23,6 +22,12 @@ $(document).ready(function () {
                 if (data == "error") return;
                 section.append(data).hide().slideDown();
             }
-        );
+        ).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("You must be logged in to view book details.");
+
+            console.log("Status: " + textStatus);
+            console.log("Error: " + errorThrown);
+            console.log("Response Code: " + jqXHR);
+        });
     });
 });
